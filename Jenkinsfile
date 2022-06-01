@@ -4,7 +4,7 @@ pipeline {
         stage('Deploy to es'){
             steps {
                ansiblePlaybook(
-                credentialsId: 'es',
+                credentialsId: 'ess',
                 inventory: 'hosts',
                 playbook: 'infra-common.yml'
                )
