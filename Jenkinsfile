@@ -8,8 +8,8 @@ pipeline {
                         #!/bin/bash
                         eval `ssh-agent -s`
                         ssh-add /opt/apps/es.pem
+                        ansible-playbook -i hosts infra-common.yml
                          '''
-                sh 'ansible-playbook -i hosts infra-common.yml'
             }
         }
     }
