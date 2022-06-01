@@ -1,0 +1,48 @@
+- hosts: esmaster
+  roles:
+    - role: elasticsearch
+  vars:
+    es_heap_size: "1g"
+    es_action_auto_create_index: false
+    es_enable_transport_ssl: true
+    es_api_basic_auth_username: elastic
+    es_api_basic_auth_password: zw_&pTSZqsEV
+    es_ssl_keystore: "files/certs/infra-common-keystore.p12"
+    es_ssl_truststore: "files/certs/infra-common-ca.p12"
+    es_validate_certs: no
+    es_config:
+      cluster.name: "zmm-cluster"
+      cluster.initial_master_nodes: "{{groups['esmaster'] | join(',')}}"
+      discovery.seed_hosts: "{{ groups['esmaster'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+      http.host: 0.0.0.0
+      http.port: 9200
+      node.data: false
+      node.master: true
+      transport.host: "{{ansible_host}}"
+      transport.port: 9300
+
+- hosts: esdata
+  roles:
+    - role: elasticsearch
+  vars:
+    es_heap_size: "3g"
+    es_action_auto_create_index: false
+    es_enable_transport_ssl: true
+    es_api_basic_auth_username: elastic
+    es_api_basic_auth_password: zw_&pTSZqsEV
+    es_ssl_keystore: "files/certs/infra-common-keystore.p12"
+    es_ssl_truststore: "files/certs/infra-common-ca.p12"
+    es_validate_certs: no
+    es_config:
+      cluster.name: "zmm-cluster"
+      cluster.initial_master_nodes: "{{groups['esmaster'] | join(',')}}"
+      discovery.seed_hosts: "{{ groups['esmaster'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+      http.host: 0.0.0.0
+      http.port: 9200
+      node.data: true
+      node.master: false
+      transport.host: "{{ansible_host}}"
+      transport.port: 9300
+      indices.fielddata.cache.size: 30%
+      indices.memory.index_buffer_size: 30%
+      indices.memory.min_index_buffer_size: 96mb
