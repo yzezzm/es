@@ -1,5 +1,4 @@
 pipeline {
-    agent { label 'master' }
     stages {
         stage('Deploy to es'){
             steps {
