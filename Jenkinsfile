@@ -6,7 +6,8 @@ pipeline {
                 echo 'Deploying es'
                 sh '''
                         #!/bin/bash
-                        ssh-agent bash; ssh-add /opt/apps/es.pem
+                        eval `ssh-agent -s`
+                        ssh-add /opt/apps/es.pem
                          '''
                 sh 'ansible-playbook -i hosts infra-common.yml'
             }
