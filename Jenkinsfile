@@ -4,10 +4,9 @@ pipeline {
         stage('Deploy to es'){
             steps {
                ansiblePlaybook(
-                credentialsId: 'ess',
-                inventory: 'hosts',
-                playbook: 'infra-common.yml'
-               )
+                       playbook: 'infra-common.yml',
+                       inventory: 'hosts',
+                       credentialsId: 'sample-ssh-key')
             }
         }
     }
