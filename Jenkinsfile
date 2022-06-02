@@ -5,7 +5,7 @@ pipeline {
             steps {
                ansiblePlaybook(
                        playbook: 'infra-common.yml',
-                       inventory: 'hosts',
+                       inventory: 'host',
                        credentialsId: 'sample-ssh-key')
             }
         }
